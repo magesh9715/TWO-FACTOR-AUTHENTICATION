@@ -1,0 +1,8 @@
+flask
+flask-mysqldb
+flask-bcrypt
+flask-session
+flask-wtf
+email-validator
+qrcode[pil]
+captcha

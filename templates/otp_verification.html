@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Two-Factor Authentication</h2>
+        <p>Select OTP Verification Method:</p>
+        
+        <div class="btn-container">
+            <button type="button" class="otp-btn" onclick="sendOTP('email')">Verify via Email</button>
+            <button type="button" class="otp-btn" onclick="generateQR()">Verify via QR Code</button>
+            
+        </div>
+
+        <!-- QR Code Section -->
+        <div id="qrSection" class="qr-container" style="display:none;">
+            <h3>Scan this QR Code:</h3>
+            <img id="qrImage" src="" alt="QR Code">
+            <p>Scan using Google Authenticator.</p>
+        </div>
+
+        <!-- OTP Entry Section -->
+        <div id="otpSection" class="otp-container" style="display:none;">
+            <h3>Enter OTP</h3>
+            <form action="/verify-otp" method="POST">
+                <input type="text" name="otp" class="otp-input" placeholder="Enter OTP" required>
+                <button type="submit" class="btn verify-btn">Verify OTP</button>
+            </form>
+            <p id="otpMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        function sendOTP(method) {
+            fetch("/send-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ method: method })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("otpSection").style.display = "block";
+                    document.getElementById("otpMessage").innerText = "OTP sent! Check your " + method;
+                } else {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(error => console.error("Error sending OTP:", error));
+        }
+
+        function generateQR() {
+            fetch("/generate-qr", { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show QR Code
+                    document.getElementById("qrSection").style.display = "block";
+                    document.getElementById("qrImage").src = "data:image/png;base64," + data.qr_code;
+                    
+                    // Show OTP input box (User will enter OTP from Google Authenticator)
+                    document.getElementById("otpSection").style.display = "block";
+                } else {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(error => console.error("Error generating QR:", error));
+        }
+    </script>
+</body>
+</html>

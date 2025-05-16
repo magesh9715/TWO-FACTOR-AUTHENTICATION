@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="card">
+        <h2>Welcome, <span class="highlight">{{ user[1] }}</span></h2>
+        <p><strong>Email:</strong> <span class="highlight">{{ user[2] }}</span></p>
+        <p><strong>Department:</strong> <span class="highlight">{{ user[3] }}</span></p>
+        <p><strong>CGPA:</strong> <span class="highlight">{{ user[4] }}</span></p>
+        <a href="/logout">
+            <button class="logout-btn">Logout</button>
+        </a>
+            </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+## Step 1: Create and Activate Virtual Environment
+
+python -m venv venv
+venv\Scripts\activate
+
+✅ If permission error:
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+venv\Scripts\activate
+
+## Step 2: Install Required Python Packages
+
+pip install flask flask-mysqldb flask-bcrypt flask-limiter flask-talisman pyotp qrcode python-dotenv
+
+## Step 3: Run the Flask Application
+
+python app.py
+
+## Step 4: Open in Web Browser
+
+http://127.0.0.1:5000/
